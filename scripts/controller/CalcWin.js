@@ -98,9 +98,8 @@ class CalcWin {
     clearEntry() {
 
         this._operation.pop();
-        console.log('last operation'+ this._lastOperator);
         this.setLastNumberToDisplay();
-        console.log(this._operation);
+
     }
 
     getLastOperation() {
@@ -169,11 +168,7 @@ class CalcWin {
             this._lastNumber = this.getLastItem(false);
         }
 
-        console.log('_lastOperator', this._lastOperator);
-        console.log('_lastNumber', this._lastNumber);
-
         let result = this.getResult();
-        console.log(this._operation);
 
         if (last == '%') {
             
@@ -181,7 +176,7 @@ class CalcWin {
             this._operation = [result];
 
         } else {
-            this._operation = [result];
+            this._operation = [result.toFixed(9)];
             if (last) this._operation.push(last);  
         }
 
@@ -198,7 +193,7 @@ class CalcWin {
 
             if (this.isOperator(this._operation[i]) == isOperator) {
 
-                console.log('operador: '+this._operation[i]);
+                //console.log('operador: '+this._operation[i]);
 
                 lastItem = this._operation[i];
                 break;
@@ -212,8 +207,6 @@ class CalcWin {
             lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
          }
 
-         console.log('last item: '+lastItem);
-
          return lastItem;
 
 
@@ -222,12 +215,10 @@ class CalcWin {
     setLastNumberToDisplay() {
 
         let lastNumber = this.getLastItem(false);
-
-        console.log('!lastNumber: '+!lastNumber);         
+        
+        console.log(lastNumber);
 
         if (!lastNumber) lastNumber = 0;
-
-        console.log('last number: '+lastNumber);
 
         this.displayCalc = lastNumber;
     }
@@ -302,8 +293,30 @@ class CalcWin {
             let raiz = Math.sqrt(value);
             this.displayCalc = raiz.toString();
         });
-
         
+    }
+
+    oneForX() {
+
+        console.log(this._operation.toString());
+
+        let number = this._operation;
+        number.forEach(value => {
+
+            value = 1/value;
+            
+            if (value.toString().length > 11) {
+
+                this.displayCalc = value.toFixed(9).toString();
+                
+            } else if (value.toString().length < 11){
+
+                this.displayCalc = value.toString();
+            }
+
+            
+        });
+
     }
     
     execBtn(value) {
@@ -341,6 +354,9 @@ class CalcWin {
                 break;
             case '±':
                 this.addOperation('±');
+                break;
+            case '¹/x':
+                this.oneForX();
                 break;
             case '=':
                 this.calc();
@@ -398,9 +414,10 @@ class CalcWin {
 
     set displayCalc(value) {
 
-        if (value.toString().length > 10) {
+        if (value.toString().length > 11) {
 
             this.setError();
+            return false;
 
         }
 

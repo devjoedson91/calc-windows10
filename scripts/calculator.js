@@ -1,4 +1,4 @@
-const calculator = new CalcWin(); // instanciei a classe CalcWin na variavel global window e chamo o constructor
+window.calculator = new CalcWin(); // instanciei a classe CalcWin na variavel global window e chamo o constructor
 
 /* para acessar o displayCalc do constructor 
 
