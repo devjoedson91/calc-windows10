@@ -298,8 +298,6 @@ class CalcWin {
 
     oneForX() {
 
-        console.log(this._operation.toString());
-
         let number = this._operation;
         number.forEach(value => {
 
@@ -319,6 +317,38 @@ class CalcWin {
 
     }
     
+    moreOrLess() {
+
+        let number = this._operation;
+        number.forEach(value => {
+
+            console.log(value);
+
+            if (value > 0) {
+
+                value = ~value + 1;
+
+                this._operation = [value];
+
+                this.displayCalc = value.toString();
+
+            } else {
+
+                console.log(this._operation);
+
+                value = Math.abs(this._operation);
+
+                this._operation = [value];
+
+                this.displayCalc = value.toString();
+
+            }  
+
+
+        });
+        
+    }
+
     execBtn(value) {
 
         switch (value) {
@@ -352,11 +382,11 @@ class CalcWin {
             case '√':
                 this.raiz('√');
                 break;
-            case '±':
-                this.addOperation('±');
-                break;
             case '¹/x':
                 this.oneForX();
+                break;
+            case '±':
+                this.moreOrLess();
                 break;
             case '=':
                 this.calc();
